@@ -28,7 +28,6 @@ public class ProductCache {
     if (forceUpdate
         || ((this.created + this.ttl) >= (System.currentTimeMillis() / 1000L))
         || this.products.isEmpty()) {
-      //teeeest
 
       // Get products from controller, since we wish to update.
       ArrayList<Product> products = ProductController.getProducts();

@@ -28,5 +28,6 @@ Make sure you are in the `cbsexam` directory when running the command above
 
 ## IntelliJ Opsætning
 Follow this guide: https://programmerscuriosity.com/2016/09/27/simple-jersey-example-with-intellij-idea-ultimate-and-tomcat/
+curl -X POST "http://localhost:8983/solr/cbsexam/update?commit=true&separator=,&fieldnames=id,title,author,description&overwrite=true" --data-binary @solrData.csv  -H 'Content-type:application/csv'
 
 
