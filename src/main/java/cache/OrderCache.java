@@ -6,7 +6,7 @@ import utils.Config;
 
 import java.util.ArrayList;
 
-//TODO: Build this cache and use it. FIXT
+//TODO: Build this cache and use it. FIX
 public class OrderCache {
 
     // List of orders, Henter fra order.java
