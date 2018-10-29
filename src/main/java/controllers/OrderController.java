@@ -35,6 +35,15 @@ public class OrderController {
       if (rs.next()) {
 
         // Perhaps we could optimize things a bit here and get rid of nested queries.
+       /* order =
+         *       new Order(
+          *              rs.getInt("user_id"),
+           *             rs.getInt("id"),
+            *            rs.getInt("billing_adress_id"),
+             *           rs.getInt("shipping_adress_id"));
+             *
+             */
+
         User user = UserController.getUser(rs.getInt("user_id"));
         ArrayList<LineItem> lineItems = LineItemController.getLineItemsForOrder(rs.getInt("id"));
         Address billingAddress = AddressController.getAddress(rs.getInt("billing_address_id"));
