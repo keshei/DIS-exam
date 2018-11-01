@@ -39,6 +39,8 @@ public class ProductEndpoints {
     return Response.status(200).type(MediaType.TEXT_PLAIN_TYPE).entity(json).build();
   }
 
+  ProductCache productCache = new ProductCache();
+
   /** @return Responses */
   @GET
   @Path("/")
@@ -46,7 +48,7 @@ public class ProductEndpoints {
 
     // Call our controller-layer in order to get the order from the DB
     //KOBLET OPP MED PRODUKT CACHE, VET IKKE OM DETTE ER RIKTIG
-    ProductCache productCache = new ProductCache();
+
     ArrayList<Product> products = productCache.getProducts(true);
 
 
