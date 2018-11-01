@@ -37,7 +37,13 @@ public final class Hashing {
     return null;
   }
 
-  // TODO: You should add a salt and make this secure
+  // TODO: You should add a salt and make this secure FIXED
+  public static String shaWithSalt(String password){
+    String salt = "sortpepper";
+    String hashedPassword = password + salt;
+    return sha(hashedPassword);
+  }
+
   public static String sha(String rawString) {
     try {
       // We load the hashing algoritm we wish to use.

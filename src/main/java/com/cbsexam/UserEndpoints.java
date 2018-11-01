@@ -3,7 +3,6 @@ package com.cbsexam;
 import com.google.gson.Gson;
 import controllers.UserController;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
