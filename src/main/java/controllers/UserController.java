@@ -52,7 +52,43 @@ public class UserController {
     // Return null
     return user;
   }
+  public static User getUserEmail(String email) {
 
+    // Check for connection
+    if (dbCon == null) {
+      dbCon = new DatabaseController();
+    }
+
+    // Build the query for DB
+    String sql = "SELECT * FROM user where email=" + email;
+
+    // Actually do the query
+    ResultSet rs = dbCon.query(sql);
+    User user = null;
+
+    try {
+      // Get first object, since we only have one
+      if (rs.next()) {
+        user =
+                new User(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("password"),
+                        rs.getString("email"));
+
+        // return the create object
+        return user;
+      } else {
+        System.out.println("No user found");
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+
+    // Return null
+    return user;
+  }
   /**
    * Get all users in database
    *
@@ -133,4 +169,8 @@ public class UserController {
     // Return user
     return user;
   }
+
+ // public static Token createToken(Token token){
+
+  //}
 }
