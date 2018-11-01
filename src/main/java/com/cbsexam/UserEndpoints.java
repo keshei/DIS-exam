@@ -106,7 +106,7 @@ public class UserEndpoints {
 
       if (currentUser == databaseUser) {
         //Return a response with status 200 and JSON as type
-        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(databaseUser).build()
+        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(databaseUser).build();
       } else {
         // Return a response with status 400 and JSON as type
         return Response.status(400).entity("Server error, user not found").build();
