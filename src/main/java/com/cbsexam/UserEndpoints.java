@@ -3,6 +3,8 @@ package com.cbsexam;
 import cache.UserCache;
 import com.google.gson.Gson;
 import controllers.UserController;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -38,15 +40,18 @@ public class UserEndpoints {
 
     // TODO: What should happen if something breaks down? FIX
     //Return data to user
-    if (user != null ) {
-      // Return the user with the status code 200, its working (sucsess)
-      return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
-    } else {
-      //Return response to user, its not working....(client failure)
-      return Response.status(400).entity("Could not identify user, feel free to try again, friend").build();
-    } //else {
-      //return Response.status(501).entity("Server error, this may or may not take some time! Try again, friend").build();
-      //}
+    try {
+      if (user != null) {
+        // Return the user with the status code 200, its working (sucsess)
+        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+      } else {
+        //Return response to user, its not working....(client failure)
+        return Response.status(400).entity("Could not identify user, feel free to try again, friend").build();
+      }
+    } catch (Exception e) {
+        e.getStackTrace();
+      return Response.status(501).entity("Server error, this may or may not take some time! Try again, friend").build();
+      }
 
 
   }
@@ -102,6 +107,7 @@ public class UserEndpoints {
   @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response loginUser(String email) {
+
       User currentUser = new Gson().fromJson(email, User.class);
       User databaseUser = UserController.getUserEmail(currentUser.getEmail());
 
