@@ -16,6 +16,8 @@ import utils.Encryption;
 
 @Path("order")
 public class OrderEndpoints {
+  // Call our controller-layer in order to get the right methodes
+  OrderCache orderCache = new OrderCache();
 
   /**
    * @param idOrder
@@ -40,8 +42,7 @@ public class OrderEndpoints {
   }
 
 
-  // Call our controller-layer in order to get the order from the DB
-  OrderCache orderCache = new OrderCache();
+
 
   /** @return Responses */
   @GET

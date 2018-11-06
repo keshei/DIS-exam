@@ -12,8 +12,11 @@ import org.junit.runners.Parameterized;
 import utils.Encryption;
 import utils.Log;
 
+
 @Path("user")
 public class UserEndpoints {
+  //
+  UserCache userCache = new UserCache();
 
   /**
    * @param idUser
@@ -48,7 +51,6 @@ public class UserEndpoints {
 
   }
 
-  UserCache userCache = new UserCache();
 
   /** @return Responses */
   @GET
