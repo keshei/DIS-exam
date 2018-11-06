@@ -118,13 +118,13 @@ public class UserEndpoints {
   @POST
   @Path("/delete/{idUser}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response deleteUser(@PathParam("idUser") int id) {
+  public Response deleteUser(@PathParam("idUser") int idUser) {
 
     User delteUser1 = UserController.getUser(idUser);
-    User delteUser2 = UserController.deleteUser(deleteUser1());
+    User delteUser2 = UserController.deleteUser(deleteUser1);
+    String json = new Gson().toJson(deleteUser2);
 
-
-    if (UserController.deleteUser(id)) {
+    if (delteUser2 != null)  {
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity("User is sucsessfully deleted, friend!").build();
     } else{

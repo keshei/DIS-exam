@@ -171,18 +171,20 @@ public class UserController {
     return user;
   }
 
-  public static boolean deleteUser (int id) {
-    //Wreit ein log that we have reached this step
-    Log.writeLog(UserController.class.getName(),id,"This is where s**t is going down, bye bye user", 0);
-
-    //Check for DB Connection
-    if(dbCon == null){
+  public static User deleteUser (User user) {
+    if (dbCon == null) {
       dbCon = new DatabaseController();
     }
-    String sql = "DELETE FROM user WHERE id =" + id;
+    try {
+      PreparedStatement deleteUser = dbCon.getConnection().prepareStatement("DELETE FROM user WHERE id = ?");
+      deleteUser.setInt(1, user.getId());
 
-    return dbCon.deleteUser(sql);
-
+      deleteUser.executeUpdate();
+    }
+    catch (SQLException sql){
+      sql.printStackTrace();
+    }
+    return user;
   }
   public static User updateUser(User user) {
 
