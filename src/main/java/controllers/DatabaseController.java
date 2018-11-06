@@ -110,4 +110,22 @@ public class DatabaseController {
     // Return the resultset which at this point will be null
     return result;
   }
+
+  public boolean deleteUser(String sql){
+    if (connection == null ){
+      connection = getConnection();
+    }
+    try {
+      PreparedStatement deleteUser = connection.prepareStatement(sql);
+      deleteUser.setString(1, sql);
+
+      int countOgRows = deleteUser.executeUpdate();
+
+      if (countOgRows ==1){
+        return true ;
+      }
+    } catch ( SQLException e){
+      e.getErrorCode();
+    } return false;
+  }
 }

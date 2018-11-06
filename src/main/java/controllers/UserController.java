@@ -170,6 +170,20 @@ public class UserController {
     return user;
   }
 
+  public static boolean deleteUser (int id) {
+    //Wreit ein log that we have reached this step
+    Log.writeLog(UserController.class.getName(),id,"This is where s**t is going down, bye bye user", 0);
+
+    //Check for DB Connection
+    if(dbCon == null){
+      dbCon = new DatabaseController();
+    }
+    String sql = "DELETE FROM user WHERE id =" + id;
+
+    return dbCon.deleteUser(sql);
+
+  }
+
  // public static Token createToken(Token token){
 
   //}
