@@ -18,7 +18,7 @@ import utils.Log;
 @Path("user")
 public class UserEndpoints {
   //
-  UserCache userCache = new UserCache();
+  public static UserCache userCache = new UserCache();
 
   /**
    * @param idUser
@@ -102,18 +102,19 @@ public class UserEndpoints {
     }
   }
 
-  // TODO: Make the system able to login users and assign them a token to use throughout the system.
+  // TODO: Make the system able to login users and assign them a token to use throughout the system. FIX
     @POST
   @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response loginUser(String email) {
+  public Response loginUser(String body) {
 
-      User currentUser = new Gson().fromJson(email, User.class);
-      User databaseUser = UserController.getUserEmail(currentUser.getEmail());
+     User user = new Gson().fromJson(body, User.class);
 
-      if (currentUser == databaseUser) {
+     String token = UserController.getLogin(user);
+
+      if (token != "") {
         //Return a response with status 200 and JSON as type
-        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(databaseUser).build();
+        return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
       } else {
         // Return a response with status 400 and JSON as type
         return Response.status(400).entity("Server error, user not found").build();
@@ -141,7 +142,7 @@ public class UserEndpoints {
      }
   }
 
-  // TODO: Make the system able to update users
+  // TODO: Make the system able to update users FIX
   @PUT
   @Path("/{idUser}")
   @Consumes(MediaType.APPLICATION_JSON)

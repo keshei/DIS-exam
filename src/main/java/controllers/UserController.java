@@ -4,6 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
 import model.User;
 import utils.Hashing;
 import utils.Log;
@@ -205,7 +210,52 @@ public class UserController {
     return user;
   }
 
- // public static Token createToken(Token token){
+  public static String getLogin(User user){
+    //Check for connection to DB
+    if (dbCon == null){
+      dbCon= new DatabaseController();
+    }
 
-  //}
+    //Build the query for DB
+
+    String sql = "SELECT * FROM user WHERE emil=" + user.getEmail() + "AND password=" + Hashing.shaWithSalt(user.getPassword());
+
+    //Here is where the query executes
+    ResultSet rs = dbCon.query(sql);
+    User userLogin;
+    String token = null;
+
+    try {
+      //Get first object, since we only have one
+      if (rs.next()) {
+        userLogin =
+                new User(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("password"),
+                        rs.getString("email"));
+        if (userLogin != null){
+          try {
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            token = JWT.create()
+                    .withClaim("userID", user.getId())
+                    .withIssuer("auth0")
+                    .sign(algorithm);
+          } catch (JWTCreationException exception ){
+            //Invalid signing configuration /could not convert Claims
+          } finally {
+            return token;
+          }
+        }
+      } else {
+        System.out.println("No user found, my friend");
+      }
+    } catch (SQLException ex){
+      System.out.println(ex.getMessage());
+    }
+      //Return null
+    return  "";
+  }
+
 }

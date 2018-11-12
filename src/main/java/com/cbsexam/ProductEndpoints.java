@@ -16,7 +16,7 @@ import utils.Encryption;
 
 @Path("product")
 public class ProductEndpoints {
-  ProductCache productCache = new ProductCache();
+  public static ProductCache productCache = new ProductCache();
 
   /**
    * @param idProduct

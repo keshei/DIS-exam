@@ -3,10 +3,14 @@ package controllers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import cache.ProductCache;
 import model.Product;
 import utils.Log;
 
 public class ProductController {
+  public static ProductCache productCache = new ProductCache();
+
 
   private static DatabaseController dbCon;
 
@@ -98,6 +102,7 @@ public class ProductController {
     }
 
     // TODO: Use caching layer.
+    ArrayList<Product> products = productCache.getProducts(true);
     String sql = "SELECT * FROM product";
 
     ResultSet rs = dbCon.query(sql);
