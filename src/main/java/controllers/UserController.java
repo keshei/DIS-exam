@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
 import model.User;
 import utils.Hashing;
@@ -176,20 +178,23 @@ public class UserController {
     return user;
   }
 
-  public static User deleteUser (User user) {
+  public static void deleteUser (String token, User user) {
     if (dbCon == null) {
       dbCon = new DatabaseController();
     }
     try {
-      PreparedStatement deleteUser = dbCon.getConnection().prepareStatement("DELETE FROM user WHERE id = ?");
-      deleteUser.setInt(1, user.getId());
+      DecodedJWT jwt = JWT.decode(token);
+      if (jwt.getClaim("userID").asInt() == user.getId()){
+        PreparedStatement deleteUser = dbCon.getConnection().prepareStatement("DELETE FROM user WHERE id = ?");
+        deleteUser.setInt(1, user.getId());
 
-      deleteUser.executeUpdate();
+        deleteUser.executeUpdate();
+      }
+
     }
     catch (SQLException sql){
       sql.printStackTrace();
     }
-    return user;
   }
   public static User updateUser(User user) {
 

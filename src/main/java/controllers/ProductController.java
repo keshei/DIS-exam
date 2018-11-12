@@ -101,12 +101,12 @@ public class ProductController {
       dbCon = new DatabaseController();
     }
 
-    // TODO: Use caching layer.
-    ArrayList<Product> products = productCache.getProducts(true);
+    // TODO: Use caching layer. FIXED
+
     String sql = "SELECT * FROM product";
 
     ResultSet rs = dbCon.query(sql);
-    ArrayList<Product> products = new ArrayList<Product>();
+    ArrayList<Product> products = productCache.getProducts(true);
 
     try {
       while (rs.next()) {
