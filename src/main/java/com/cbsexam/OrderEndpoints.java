@@ -17,7 +17,7 @@ import utils.Encryption;
 @Path("order")
 public class OrderEndpoints {
   // Call our controller-layer in order to get the right methodes
-  OrderCache orderCache = new OrderCache();
+  public static OrderCache orderCache = new OrderCache();
 
   /**
    * @param idOrder
