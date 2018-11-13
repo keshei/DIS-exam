@@ -31,14 +31,14 @@ public class UserEndpoints {
     // Use the ID to get the user from the controller.
     User user = UserController.getUser(idUser);
 
-    // TODO: Add Encryption to JSON,   FIX
+    // TODO: Add Encryption to JSON,   FIXED
     // Convert the user object to json in order to return the object
     String json = new Gson().toJson(user);
 
     //add encryption to json rawString object(ref.utils Encryption)
     json = Encryption.encryptDecryptXOR(json);
 
-    // TODO: What should happen if something breaks down? FIX
+    // TODO: What should happen if something breaks down? FIXED
     //Return data to user
     try {
       if (user != null) {
@@ -68,7 +68,7 @@ public class UserEndpoints {
     // Get a list of users
     ArrayList<User> users = userCache.getUsers(true);
 
-    // TODO: Add Encryption to JSON, FIX
+    // TODO: Add Encryption to JSON, FIXED
     // Transfer users to json in order to return it to the user
     String json = new Gson().toJson(users);
 
@@ -123,17 +123,17 @@ public class UserEndpoints {
 
 
 
-  // TODO: Make the system able to delete users FIX
+  // TODO: Make the system able to delete users FIXED + with Token
   @POST
-  @Path("/delete/{token}")
+  @Path("/delete")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response deleteUser(@PathParam("token") String token, User user) {
+  public Response deleteUser(String body) {
 
-    //User deleteUser1 = UserController.getUser(idUser);
-    //User deleteUser2 = UserController.deleteUser(deleteUser1);
-    String json = new Gson().toJson(token);
+    User user = new Gson().fromJson(body, User.class);
+    String token = UserController.getTokenVerifier(user);
 
     if (token != null)  {
+      UserController.deleteUser(user);
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity("User is sucsessfully deleted, friend!").build();
     } else{
@@ -142,21 +142,19 @@ public class UserEndpoints {
      }
   }
 
-  // TODO: Make the system able to update users FIX
+  // TODO: Make the system able to update users FIXED + with Token
   @PUT
-  @Path("/{idUser}")
+  @Path("/update")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response updateUser(String x) {
+  public Response updateUser(String body) {
 
-    User UserUpdate = new Gson().fromJson(x, User.class);
+    User user = new Gson().fromJson(body, User.class);
+    String token = UserController.getTokenVerifier(user);
 
-    User updateUser = UserController.updateUser(UserUpdate);
-
-    String json = new Gson().toJson(updateUser);
-
-    if(updateUser != null) {
+    if(token != null) {
+      UserController.updateUser(user);
       // Return a response with status 200 and JSON as type
-      return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+      return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity("User is updated").build();
     }
     else {
       // Return a response with status 400 server ERROR

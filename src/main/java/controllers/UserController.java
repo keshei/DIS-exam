@@ -6,9 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
 import model.User;
@@ -178,18 +181,15 @@ public class UserController {
     return user;
   }
 
-  public static void deleteUser (String token, User user) {
+  public static void deleteUser (User user) {
     if (dbCon == null) {
       dbCon = new DatabaseController();
     }
     try {
-      DecodedJWT jwt = JWT.decode(token);
-      if (jwt.getClaim("userID").asInt() == user.getId()){
         PreparedStatement deleteUser = dbCon.getConnection().prepareStatement("DELETE FROM user WHERE id = ?");
         deleteUser.setInt(1, user.getId());
 
         deleteUser.executeUpdate();
-      }
 
     }
     catch (SQLException sql){
@@ -200,7 +200,7 @@ public class UserController {
 
     try {
 
-      PreparedStatement updateUser = DatabaseController.getConnection().prepareStatement( "UPDATE user SET first_name = ?, last_name = ?, password =?, email = ? WHERE id =?");
+      PreparedStatement updateUser = dbCon.getConnection().prepareStatement( "UPDATE user SET first_name = ?, last_name = ?, password =?, email = ? WHERE id =?");
 
       updateUser.setString(1,user.getFirstname());
       updateUser.setString(2,user.getLastname());
@@ -260,6 +260,58 @@ public class UserController {
       System.out.println(ex.getMessage());
     }
       //Return null
+    return  "";
+  }
+  public static String getTokenVerifier(User user){
+    //Check for connection to DB
+    if (dbCon == null){
+      dbCon= new DatabaseController();
+    }
+
+    //Build the query for DB
+
+    String sql = "SELECT * FROM user WHERE id=" + user.getId();
+
+    //Here is where the query executes
+    ResultSet rs = dbCon.query(sql);
+    User sessionToken;
+    String token = user.getToken();
+
+    try {
+      //Get first object, since we only have one
+      if (rs.next()) {
+        sessionToken =
+                new User(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("password"),
+                        rs.getString("email"));
+        if (sessionToken != null){
+          try {
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build();
+            DecodedJWT jwt = verifier.verify(token);
+            Claim claim = jwt.getClaim("userID");
+
+            if (user.getId() == claim.asInt()) {
+              return token;
+            }
+
+          } catch (JWTVerificationException e){
+            System.out.println(e.getMessage());
+            //Invalid signing configuration /could not convert Claims
+          }
+        }
+      } else {
+        System.out.println("No user found, my friend");
+      }
+    } catch (SQLException ex){
+      System.out.println(ex.getMessage());
+    }
+    //Return null
     return  "";
   }
 
