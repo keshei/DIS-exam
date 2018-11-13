@@ -28,7 +28,7 @@ public class OrderEndpoints {
   public Response getOrder(@PathParam("idOrder") int idOrder) {
 
     // Call our controller-layer in order to get the order from the DB
-    Order order = OrderController.getOrder(idOrder);
+    ArrayList<Order> order = orderCache.getOrder(true);
 
     // TODO: Add Encryption to JSON, FIXED
     // We convert the java object to json with GSON library imported in Maven

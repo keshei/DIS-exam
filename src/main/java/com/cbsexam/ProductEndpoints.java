@@ -26,8 +26,8 @@ public class ProductEndpoints {
   @Path("/{idProduct}")
   public Response getProduct(@PathParam("idProduct") int idProduct) {
 
-    // Call our controller-layer in order to get the order from the DB
-    Product product = ProductController.getProduct(idProduct);
+    // Call our Caching layer in order to find product
+    ArrayList<Product> product = productCache.getProduct(true);
 
     // TODO: Add Encryption to JSON, FIXED
     // We convert the java object to json with GSON library imported in Maven
