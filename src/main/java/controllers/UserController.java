@@ -268,27 +268,8 @@ public class UserController {
     if (dbCon == null){
       dbCon= new DatabaseController();
     }
-
-    //Build the query for DB
-
-    String sql = "SELECT * FROM user WHERE id=" + user.getId();
-
-    //Here is where the query executes
-    ResultSet rs = dbCon.query(sql);
-    User sessionToken;
+    
     String token = user.getToken();
-
-    try {
-      //Get first object, since we only have one
-      if (rs.next()) {
-        sessionToken =
-                new User(
-                        rs.getInt("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("password"),
-                        rs.getString("email"));
-        if (sessionToken != null){
           try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
             JWTVerifier verifier = JWT.require(algorithm)
@@ -305,13 +286,7 @@ public class UserController {
             System.out.println(e.getMessage());
             //Invalid signing configuration /could not convert Claims
           }
-        }
-      } else {
-        System.out.println("No user found, my friend");
-      }
-    } catch (SQLException ex){
-      System.out.println(ex.getMessage());
-    }
+
     //Return null
     return  "";
   }
