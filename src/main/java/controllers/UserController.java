@@ -245,6 +245,7 @@ public class UserController {
             Algorithm algorithm = Algorithm.HMAC256("secret");
             token = JWT.create()
                     .withClaim("userID", user.getId())
+                    .withClaim("exp", System.currentTimeMillis()+ 100000000)
                     .withIssuer("auth0")
                     .sign(algorithm);
           } catch (JWTCreationException exception ){
