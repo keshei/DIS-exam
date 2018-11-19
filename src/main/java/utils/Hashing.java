@@ -40,7 +40,7 @@ public final class Hashing {
   // TODO: You should add a salt and make this secure FIXED
   public static String shaWithSalt(String password){
     char[] key = Config.getSalt();
-    String hashedPassword = password + salt;
+    String hashedPassword = password + "SALT";
     return sha(hashedPassword);
   }
 
