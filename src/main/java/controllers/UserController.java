@@ -268,7 +268,7 @@ public class UserController {
     if (dbCon == null){
       dbCon= new DatabaseController();
     }
-    
+
     String token = user.getToken();
           try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
