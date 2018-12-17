@@ -54,7 +54,7 @@ public class DatabaseController {
    *
    * @return a ResultSet or Null if Empty
    */
-  public ResultSet query(String sql) {
+  public ResultSet query(String sql) throws NullPointerException {
 
     // Check if we have a connection
     if (connection == null)
@@ -73,7 +73,7 @@ public class DatabaseController {
 
       // Return the results
       return rs;
-    } catch (SQLException e) {
+    } catch (SQLException|NullPointerException e) {
       System.out.println(e.getMessage());
     }
 

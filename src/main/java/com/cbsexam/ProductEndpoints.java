@@ -18,29 +18,6 @@ import utils.Encryption;
 public class ProductEndpoints {
   public static ProductCache productCache = new ProductCache();
 
-  /**
-   * @param idProduct
-   * @return Responses
-   */
-  @GET
-  @Path("/{idProduct}")
-  public Response getProduct(@PathParam("idProduct") int idProduct) {
-
-    // Call our Caching layer in order to find product
-    ArrayList<Product> product = productCache.getProduct(true);
-
-    // TODO: Add Encryption to JSON, FIXED
-    // We convert the java object to json with GSON library imported in Maven
-    String json = new Gson().toJson(product);
-
-    //add encryption to json rawString object(ref.utils Encryption)
-    json = Encryption.encryptDecryptXOR(json);
-
-    // Return a response with status 200 and JSON as type
-    return Response.status(200).type(MediaType.TEXT_PLAIN_TYPE).entity(json).build();
-  }
-
-
   /** @return Responses */
   @GET
   @Path("/")
@@ -57,7 +34,7 @@ public class ProductEndpoints {
     String json = new Gson().toJson(products);
 
     //add encryption to json rawString object(ref.utils Encryption)
-    json = Encryption.encryptDecryptXOR(json);
+    //json = Encryption.encryptDecryptXOR(json);
 
     // Return a response with status 200 and JSON as type
     return Response.status(200).type(MediaType.TEXT_PLAIN_TYPE).entity(json).build();

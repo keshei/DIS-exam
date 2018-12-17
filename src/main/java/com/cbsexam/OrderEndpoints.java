@@ -19,31 +19,6 @@ public class OrderEndpoints {
   // Call our controller-layer in order to get the right methodes
   public static OrderCache orderCache = new OrderCache();
 
-  /**
-   * @param idOrder
-   * @return Responses
-   */
-  @GET
-  @Path("/{idOrder}")
-  public Response getOrder(@PathParam("idOrder") int idOrder) {
-
-    // Call our controller-layer in order to get the order from the DB
-    ArrayList<Order> order = orderCache.getOrder(true);
-
-    // TODO: Add Encryption to JSON, FIXED
-    // We convert the java object to json with GSON library imported in Maven
-    String json = new Gson().toJson(order);
-
-    //add encryption to json rawString object(ref.utils Encryption)
-    json = Encryption.encryptDecryptXOR(json);
-
-    // Return a response with status 200 and JSON as type
-    return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
-  }
-
-
-
-
   /** @return Responses */
   @GET
   @Path("/")

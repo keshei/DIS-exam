@@ -25,23 +25,6 @@ public class OrderCache {
         this.ttl = Config.getOrderTtl();
     }
 
-    public ArrayList<Order> getOrder(Boolean forceUpdate) {
-
-        if (forceUpdate
-                || ((this.created + this.ttl) >= (System.currentTimeMillis() / 1000L))
-                || this.order.isEmpty()) {
-
-            // Get products from controller, since we wish to update.
-            ArrayList<Order> order = OrderController.getOrders();
-
-            // Set products for the instance and set created timestamp
-            this.order = order;
-            this.created = System.currentTimeMillis() / 1000L;
-        }
-
-        // Return the document
-        return this.order;
-    }
 
     public ArrayList<Order> getOrders(Boolean forceUpdate) {
 
