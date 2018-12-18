@@ -12,8 +12,6 @@ public class OrderCache {
     // List of orders, Henter fra order.java
     private ArrayList<Order> orders;
 
-    private ArrayList<Order> order;
-
     // Time cache should live
     private long ttl;
 

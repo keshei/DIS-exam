@@ -23,8 +23,8 @@ public class ProductEndpoints {
   @Path("/")
   public Response getProducts() {
 
+    //
     // Call our controller-layer in order to get the order from the DB
-    //KOBLET OPP MED PRODUKT CACHE, VET IKKE OM DETTE ER RIKTIG
 
     ArrayList<Product> products = productCache.getProducts(true);
 
@@ -34,10 +34,10 @@ public class ProductEndpoints {
     String json = new Gson().toJson(products);
 
     //add encryption to json rawString object(ref.utils Encryption)
-    //json = Encryption.encryptDecryptXOR(json);
+    json = Encryption.encryptDecryptXOR(json);
 
     // Return a response with status 200 and JSON as type
-    return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();
+    return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
   }
 
   @POST

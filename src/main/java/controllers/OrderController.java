@@ -89,13 +89,20 @@ public class OrderController {
       dbCon = new DatabaseController();
     }
 
-    String sql = "SELECT * FROM order";
+    String sql = "SELECT * FROM orders";
 
     ResultSet rs = dbCon.query(sql);
     ArrayList<Order> orders = new ArrayList<Order>();
 
     try {
+      //Loop through the database
       while(rs.next()) {
+
+          /**Order order =
+                  rs.getInt("user_id");
+                  rs.getInt("id");
+                  rs.getInt("billing_adress_id");
+                  rs.getInt("shipping_adress_id"); */
 
         // Perhaps we could optimize things a bit here and get rid of nested queries.
         User user = UserController.getUser(rs.getInt("user_id"));

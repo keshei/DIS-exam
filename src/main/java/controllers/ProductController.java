@@ -101,19 +101,22 @@ public class ProductController {
       dbCon = new DatabaseController();
     }
 
+
+
     // TODO: Use caching layer. FIXED
 
     String sql = "SELECT * FROM product";
 
+    // Do the query and initialyze an empty list for use if we don't get results
     ResultSet rs = dbCon.query(sql);
-    ArrayList<Product> products = productCache.getProducts(true);
+    ArrayList<Product> products = new ArrayList<Product>();
 
     try {
       while (rs.next()) {
         Product product =
             new Product(
                 rs.getInt("id"),
-                rs.getString("name"),
+                rs.getString("product_name"),
                 rs.getString("sku"),
                 rs.getFloat("price"),
                 rs.getString("description"),

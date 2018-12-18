@@ -223,7 +223,7 @@ public class UserController {
 
     //Build the query for DB
 
-    String sql = "SELECT * FROM user WHERE email=" + user.getEmail() + "AND password=" + Hashing.shaWithSalt(user.getPassword());
+    String sql = "SELECT * FROM user WHERE emil=" + user.getEmail() + "AND password=" + Hashing.shaWithSalt(user.getPassword());
 
     //Here is where the query executes
     ResultSet rs = dbCon.query(sql);
