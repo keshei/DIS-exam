@@ -19,10 +19,33 @@ public class OrderEndpoints {
   // Call our controller-layer in order to get the right methodes
   public static OrderCache orderCache = new OrderCache();
 
-  /** @return Responses */
-  @GET
-  @Path("/")
+  /**
+   * @Param idOrder
+   * @return Responses
+   */
 
+  @GET
+  @Path("/{idOrder}")
+  public Response getOrder (@PathParam ("idOrder") int idOrder) {
+
+    // Call our controller-layer in order to get the order from the DB
+    Order order = OrderController.getOrder(idOrder);
+
+    // TODO: Add Encryption to JSON: FIXED
+    // We convert the java object to json with GSON library imported in Maven
+    String json = new Gson().toJson(order);
+
+    // encryption to json rwaString object(ret. utils Encryption)
+    json = Encryption.encryptDecryptXOR(json);
+
+    // Return a response with status 200 and JSON as type
+    return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json).build();
+
+  }
+
+  /** @return Responsens */
+  @GET
+  @Path ("/")
   public Response getOrders() {
 
     ArrayList<Order> orders = orderCache.getOrders(true);
@@ -46,10 +69,10 @@ public class OrderEndpoints {
     // Read the json from body and transfer it to a order class
     Order newOrder = new Gson().fromJson(body, Order.class);
 
-    // Use the controller to add the user
+    // Use the controller to add the order
     Order createdOrder = OrderController.createOrder(newOrder);
 
-    // Get the user back with the added ID and return it to the user
+    // Get the order back with the added ID and return it to the user
     String json = new Gson().toJson(createdOrder);
 
     // Return the data to the user
@@ -59,7 +82,7 @@ public class OrderEndpoints {
     } else {
 
       // Return a response with status 400 and a message in text
-      return Response.status(400).entity("Could not create user").build();
+      return Response.status(400).entity("Could not create order").build();
     }
   }
 }
