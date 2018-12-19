@@ -62,7 +62,7 @@ public class OrderEndpoints {
   }
 
   @POST
-  @Path("/")
+  @Path("/create")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response createOrder(String body) {
 

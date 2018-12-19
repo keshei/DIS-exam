@@ -224,7 +224,7 @@ public class UserController {
 
     //Build the query for DB
 
-    String sql = "SELECT * FROM user WHERE email= '" + user.getEmail() + " 'AND (password=' " + Hashing.shaWithSalt(user.getPassword()) + " ' OR password = ' " + user.getPassword() + " ' )";
+    String sql = "SELECT * FROM user where email= '" + user.getEmail() + "'AND (password=' " + Hashing.shaWithSalt(user.getPassword()) + "' OR password = '" + user.getPassword() + " ' )";
 
     //Here is where the query executes
     ResultSet rs = dbCon.query(sql);
@@ -251,7 +251,9 @@ public class UserController {
                     .withExpiresAt(expire)
                     .withIssuer("auth0")
                     .sign(algorithm);
-          } catch (JWTCreationException exception ){
+          }
+          catch (JWTCreationException exception ) {
+            System.out.println(exception.getMessage());
             //Invalid signing configuration /could not convert Claims
           } finally {
             return token;

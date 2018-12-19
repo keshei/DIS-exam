@@ -12,7 +12,7 @@ public class Product {
 
   public Product(int id, String name, String sku, float price, String description, int stock) {
     this.id = id;
-    this.name = name;
+    this.name = name ;
     this.sku = sku;
     this.price = price;
     this.description = description;

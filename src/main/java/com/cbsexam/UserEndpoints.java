@@ -112,7 +112,7 @@ public class UserEndpoints {
 
      String token = UserController.getLogin(user);
 
-      if (token.equals("")) {
+      if (token != "") {
         //Return a response with status 200 and JSON as type
         return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
       } else {

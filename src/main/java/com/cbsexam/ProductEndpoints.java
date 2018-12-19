@@ -41,20 +41,20 @@ public class ProductEndpoints {
   }
 
   @POST
-  @Path("/")
+  @Path("/create")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response createProduct(String body) {
 
     // Read the json from body and transfer it to a product class
     Product newProduct = new Gson().fromJson(body, Product.class);
 
-    // Use the controller to add the user
+    // Use the controller to add the product
     Product createdProduct = ProductController.createProduct(newProduct);
 
-    // Get the user back with the added ID and return it to the user
+    // Get the product back with the added ID and return it to the product
     String json = new Gson().toJson(createdProduct);
 
-    // Return the data to the user
+    // Return the data to the product
     if (createdProduct != null) {
       // Return a response with status 200 and JSON as type
       return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(json).build();

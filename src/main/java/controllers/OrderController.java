@@ -158,6 +158,7 @@ public class OrderController {
     // TODO: Enable transactions in order for us to not save the order if somethings fails for some of the other inserts. FIXED
 
     Connection connection = dbCon.getConnection();
+    //DatabaseController.getConnection();
 
     try {
       connection.setAutoCommit(false);
@@ -211,7 +212,7 @@ public class OrderController {
       }
     }
 
-    OrderEndpoints.orderCache.getOrders(true);
+    //OrderEndpoints.orderCache.getOrders(true);
 
     // Return order
     return order;
