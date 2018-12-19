@@ -9,7 +9,7 @@ public final class Hashing {
 
   // TODO: You should add a salt and make this secure FIXED
   public static String shaWithSalt(String password){
-    char[] salt = Config.getSalt();
+    String salt = Config.getSalt();
     String hashedPassword = password + salt;
     return sha(hashedPassword);
   }

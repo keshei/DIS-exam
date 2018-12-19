@@ -23,7 +23,7 @@ public class ProductEndpoints {
   @Path("/")
   public Response getProducts() {
 
-    //
+    //TODO: Add Encryption to JSON, FIXED
     // Call our controller-layer in order to get the order from the DB
 
     ArrayList<Product> products = productCache.getProducts(true);

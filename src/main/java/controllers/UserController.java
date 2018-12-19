@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -223,7 +224,7 @@ public class UserController {
 
     //Build the query for DB
 
-    String sql = "SELECT * FROM user WHERE emil=" + user.getEmail() + "AND password=" + Hashing.shaWithSalt(user.getPassword());
+    String sql = "SELECT * FROM user WHERE email= '" + user.getEmail() + " 'AND (password=' " + Hashing.shaWithSalt(user.getPassword()) + " ' OR password = ' " + user.getPassword() + " ' )";
 
     //Here is where the query executes
     ResultSet rs = dbCon.query(sql);
@@ -242,10 +243,12 @@ public class UserController {
                         rs.getString("email"));
         if (userLogin != null){
           try {
+            Date expire = new Date();
+            expire.setTime(System.currentTimeMillis() + 1000000);
             Algorithm algorithm = Algorithm.HMAC256("secret");
             token = JWT.create()
                     .withClaim("userID", user.getId())
-                    .withClaim("exp", System.currentTimeMillis()+ 100000000)
+                    .withExpiresAt(expire)
                     .withIssuer("auth0")
                     .sign(algorithm);
           } catch (JWTCreationException exception ){
@@ -263,6 +266,8 @@ public class UserController {
       //Return null
     return  "";
   }
+
+
   public static String getTokenVerifier(User user){
     //Check for connection to DB
     if (dbCon == null){

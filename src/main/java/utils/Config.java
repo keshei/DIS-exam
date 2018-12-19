@@ -62,8 +62,8 @@ public final class Config {
     return ENCRYPTION_KEY.toCharArray();
   }
 
-  public static char [] getSalt () {
-    return SALT.toCharArray();
+  public static String getSalt () {
+    return SALT;
   }
 
   public static Boolean getEncryption() {

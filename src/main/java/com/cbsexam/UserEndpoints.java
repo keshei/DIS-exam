@@ -80,7 +80,7 @@ public class UserEndpoints {
   }
 
   @POST
-  @Path("/")
+  @Path("/create")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response createUser(String body) {
 
@@ -112,7 +112,7 @@ public class UserEndpoints {
 
      String token = UserController.getLogin(user);
 
-      if (token != "") {
+      if (token.equals("")) {
         //Return a response with status 200 and JSON as type
         return Response.status(200).type(MediaType.APPLICATION_JSON_TYPE).entity(token).build();
       } else {
