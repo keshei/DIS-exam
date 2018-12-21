@@ -212,7 +212,7 @@ public class OrderController {
       }
     }
 
-    //OrderEndpoints.orderCache.getOrders(true);
+    OrderEndpoints.orderCache.getOrders(true);
 
     // Return order
     return order;

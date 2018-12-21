@@ -124,7 +124,7 @@ public class UserEndpoints {
 
 
   // TODO: Make the system able to delete users FIXED + with Token
-  @POST
+  @DELETE
   @Path("/delete")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response deleteUser(String body) {
